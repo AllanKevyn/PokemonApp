@@ -6,17 +6,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.pokemonapp.R
+import com.example.pokemonapp.adapter.PokemonAdapter
+import com.example.pokemonapp.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var pokemonAdapter: PokemonAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        setUpAdapters()
+        return binding.root
+    }
+
+    private fun setUpAdapters() {
+
+        pokemonAdapter = PokemonAdapter(emptyList())
+        binding.rvPokemon.adapter = pokemonAdapter
+        pokemonAdapter.onItemClicked = {
+
+        }
     }
 }
