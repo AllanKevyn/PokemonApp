@@ -1,6 +1,6 @@
 package com.example.pokemonapp.responses
 
-data class Result(
+data class PokemonListResult(
     val name: String,
     val url: String
 )

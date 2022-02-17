@@ -9,9 +9,9 @@ import javax.inject.Inject
 
 class HomeRepositoryImpl @Inject constructor(private val homeApi: HomeApi) : HomeRepository {
 
-    override suspend fun getPokemonList(): Flow<PokemonList> = flow {
+    override suspend fun getPokemonList(limit: Int, offset: Int): Flow<PokemonList> = flow {
         try {
-            emit(homeApi.getPokemonList())
+            emit(homeApi.getPokemonList(limit, offset))
         } catch (e: HttpException) {
         }
     }

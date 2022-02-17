@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class HomeApi  @Inject constructor(private val homeApi: HomeEndPoint) {
 
-    suspend fun getPokemonList(): PokemonList =
-        homeApi.getPokemonList()
+    suspend fun getPokemonList(limit: Int, offset: Int): PokemonList =
+        homeApi.getPokemonList(limit, offset)
 }

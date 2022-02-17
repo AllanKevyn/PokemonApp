@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class HomeUseCase @Inject constructor(private val homeRepository: HomeRepository) {
 
-    suspend fun getPokemonList(): Flow<PokemonList> {
-        return homeRepository.getPokemonList()
+    suspend fun getPokemonList(limit: Int, offset: Int): Flow<PokemonList> {
+        return homeRepository.getPokemonList(limit, offset)
     }
 }

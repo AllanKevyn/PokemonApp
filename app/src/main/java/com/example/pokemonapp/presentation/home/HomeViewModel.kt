@@ -22,8 +22,11 @@ class HomeViewModel @Inject constructor(
     private var _supplierResult = MutableLiveData<States.GetPokemonListState>()
     val supplierResult: LiveData<States.GetPokemonListState> = _supplierResult
 
+    private var page = 0
+    var pageSize = 15
+
     fun getPokemonList() {
-        viewModelScope.launch { homeUseCase.getPokemonList()
+        viewModelScope.launch { homeUseCase.getPokemonList(pageSize, page * pageSize)
             .flowOn(Dispatchers.Main)
             .onStart { _supplierResult.value = States.GetPokemonListState.Loading }
             .catch { _supplierResult.value = States.GetPokemonListState.Failure(it.message.toString()) }
