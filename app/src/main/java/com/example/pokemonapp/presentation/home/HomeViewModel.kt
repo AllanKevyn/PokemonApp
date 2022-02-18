@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.pokemonapp.base.BaseViewModel
 import com.example.pokemonapp.base.States
+import com.example.pokemonapp.responses.PokemonListEntry
 import com.example.pokemonapp.usecase.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,9 +22,10 @@ class HomeViewModel @Inject constructor(
 
     private var _supplierResult = MutableLiveData<States.GetPokemonListState>()
     val supplierResult: LiveData<States.GetPokemonListState> = _supplierResult
+    var newPokemonList = MutableLiveData<List<PokemonListEntry>>()
 
-    private var page = 0
-    var pageSize = 15
+    var page = 0
+    var pageSize = 14
 
     fun getPokemonList() {
         viewModelScope.launch { homeUseCase.getPokemonList(pageSize, page * pageSize)

@@ -6,17 +6,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemonapp.databinding.ItemHomeBinding
 import com.example.pokemonapp.responses.PokemonList
+import com.example.pokemonapp.responses.PokemonListEntry
 import com.example.pokemonapp.responses.PokemonListResult
+import com.squareup.picasso.Picasso
 
 class PokemonAdapter(
-    private var pokemonItems: List<PokemonListResult>
+    private var pokemonItems: List<PokemonListEntry>
 ) : RecyclerView.Adapter<PokemonAdapter.Holder>() {
 
     lateinit var onItemClicked: () -> Unit
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateItemsHome(pokemonList: PokemonList) {
-        pokemonItems = pokemonList.results
+    fun updateItemsHome(pokemonList: List<PokemonListEntry>) {
+        pokemonItems = pokemonList
         notifyDataSetChanged()
     }
 
@@ -41,12 +43,13 @@ class PokemonAdapter(
         private val onItemClicked: () -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        lateinit var content: PokemonListResult
+        lateinit var content: PokemonListEntry
 
-        fun bind(content: PokemonListResult) {
+        fun bind(content: PokemonListEntry) {
             this.content = content
 
-            binding.pkmName.text = content.name
+            Picasso.get().load(content.imageUrl).into(binding.pkmImage)
+            binding.pkmName.text = content.pokemonName
 
             binding.root.setOnClickListener {
                 onItemClicked.invoke()

@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cvItemSearch"
-    android:layout_width="145dp"
-    android:layout_height="145dp"
+    android:layout_width="150dp"
+    android:layout_height="160dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="20dp"
+    app:cardElevation="15dp"
+    app:strokeWidth="8dp"
     android:layout_marginStart="20dp"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="5dp">
 
-        <ImageView
-            android:id="@+id/pkmImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_logo" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/pkmImage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/pkmName"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_logo" />
 
         <TextView
             android:id="@+id/pkmName"
@@ -27,11 +34,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="5dp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:text="Pokemon"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 </androidx.cardview.widget.CardView>
