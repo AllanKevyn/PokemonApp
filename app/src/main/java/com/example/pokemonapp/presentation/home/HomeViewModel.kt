@@ -22,13 +22,13 @@ class HomeViewModel @Inject constructor(
 
     private var _supplierResult = MutableLiveData<States.GetPokemonListState>()
     val supplierResult: LiveData<States.GetPokemonListState> = _supplierResult
-    var newPokemonList = MutableLiveData<List<PokemonListEntry>>()
 
     var page = 0
     var pageSize = 14
+    var isLastPage : Boolean = false
 
     fun getPokemonList() {
-        viewModelScope.launch { homeUseCase.getPokemonList(pageSize, page * pageSize)
+        viewModelScope.launch { homeUseCase.getPokemonList(pageSize, page )
             .flowOn(Dispatchers.Main)
             .onStart { _supplierResult.value = States.GetPokemonListState.Loading }
             .catch { _supplierResult.value = States.GetPokemonListState.Failure(it.message.toString()) }
