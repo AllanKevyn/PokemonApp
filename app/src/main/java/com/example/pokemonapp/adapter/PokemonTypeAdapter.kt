@@ -1,19 +1,23 @@
 package com.example.pokemonapp.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemonapp.databinding.ItemDetailBinding
-import com.example.pokemonapp.responses.PokemonListEntry
+import com.example.pokemonapp.responses.Type
+import com.example.pokemonapp.util.PokemonType
 
-class PokemonTypeAdapter () : RecyclerView.Adapter<PokemonTypeAdapter.Holder>() {
+class PokemonTypeAdapter : RecyclerView.Adapter<PokemonTypeAdapter.Holder>() {
 
-    private var typeItems: List<PokemonListEntry> = ArrayList()
+    private var typeItems: List<Type> = ArrayList()
     lateinit var onItemClicked: () -> Unit
+    lateinit var context: Context
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateTypeItems(pokemonList: List<PokemonListEntry>) {
+    fun updateTypeItems(pokemonList: List<Type>) {
         typeItems = pokemonList
         notifyDataSetChanged()
     }
@@ -26,7 +30,7 @@ class PokemonTypeAdapter () : RecyclerView.Adapter<PokemonTypeAdapter.Holder>() 
         return Holder(
             ItemDetailBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
-            ), onItemClicked
+            ), onItemClicked, context = parent.context
         )
     }
 
@@ -36,15 +40,22 @@ class PokemonTypeAdapter () : RecyclerView.Adapter<PokemonTypeAdapter.Holder>() 
 
     class Holder(
         private val binding: ItemDetailBinding,
-        private val onItemClicked: () -> Unit
+        private val onItemClicked: () -> Unit,
+        private val context: Context
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        lateinit var content: PokemonListEntry
+        lateinit var content: Type
 
-        fun bind(content: PokemonListEntry) {
+        fun bind(content: Type) {
             this.content = content
-
-            binding.type.text = ""
+            content.type.name
+            binding.type.text = content.type.name
+            binding.cardV.background.setTint(
+                ContextCompat.getColor(
+                    context,
+                    PokemonType.getTypeColor(content.type.name)
+                )
+            )
 
             binding.root.setOnClickListener {
                 onItemClicked.invoke()

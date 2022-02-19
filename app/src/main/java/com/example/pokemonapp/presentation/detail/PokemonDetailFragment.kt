@@ -88,6 +88,7 @@ class PokemonDetailFragment : BaseFragment() {
             when (state) {
                 is States.GetPokemonDetailState.Success -> {
                     binding.progressBar.visibility = View.GONE
+                    typeAdapter.updateTypeItems(state.pokeInf.types)
                     setUpItemsView(state)
                 }
                 is States.GetPokemonDetailState.Failure -> {
