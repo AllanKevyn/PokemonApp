@@ -9,5 +9,8 @@
     <string name="atk">ATK:</string>
     <string name="def">DEF:</string>
     <string name="spd">SPD:</string>
-    <string name="exp">EXP:</string>
+    <string name="sp_atk">SpAtk:</string>
+    <string name="sp_def">SpDef:</string>
+    <string name="scale">Escala de 0 a 160</string>
+
 </resources>
