@@ -8,8 +8,10 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pokemonapp.R
 import com.example.pokemonapp.adapter.PokemonAdapter
 import com.example.pokemonapp.base.BaseFragment
 import com.example.pokemonapp.base.States
@@ -53,6 +55,7 @@ class HomeFragment : BaseFragment() {
         binding.rvPokemon.layoutManager = layoutManager
         binding.rvPokemon.addOnScrollListener(this@HomeFragment.scrollListener)
         pokemonAdapter.onItemClicked = {
+            findNavController().navigate(R.id.action_homeFragment_to_pokemonDetailFragment)
         }
     }
 
