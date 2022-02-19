@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemonapp.databinding.ItemHomeBinding
-import com.example.pokemonapp.responses.PokemonList
 import com.example.pokemonapp.responses.PokemonListEntry
-import com.example.pokemonapp.responses.PokemonListResult
 import com.squareup.picasso.Picasso
 
-class PokemonAdapter(
-    private var pokemonItems: List<PokemonListEntry>
-) : RecyclerView.Adapter<PokemonAdapter.Holder>() {
+class PokemonAdapter() : RecyclerView.Adapter<PokemonAdapter.Holder>() {
 
+    private var pokemonItems: List<PokemonListEntry> = ArrayList()
     lateinit var onItemClicked: () -> Unit
 
     @SuppressLint("NotifyDataSetChanged")

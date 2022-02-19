@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemonapp.adapter.PokemonAdapter
@@ -17,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
+
 
     private val viewModel by viewModels<HomeViewModel>()
     override fun getBaseViewModel() = viewModel
@@ -39,10 +42,11 @@ class HomeFragment : BaseFragment() {
         viewModel.getPokemonList()
         setUpAdapters()
         setUpObservers()
+        setUpSearch()
     }
 
     private fun setUpAdapters() {
-        pokemonAdapter = PokemonAdapter(emptyList())
+        pokemonAdapter = PokemonAdapter()
         binding.rvPokemon.adapter = pokemonAdapter
 
         layoutManager = GridLayoutManager(binding.rvPokemon.context, 2)
@@ -69,8 +73,9 @@ class HomeFragment : BaseFragment() {
                             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png"
                         PokemonListEntry(pokemonListResult.name, url, number.toInt())
                     }
+                    viewModel.setList(pokemonEntries)
                     pokemonAdapter.updateItemsHome(pokemonEntries)
-                    viewModel.page++
+
                 }
                 is States.GetPokemonListState.Failure -> {
                     binding.progressBar.visibility = View.GONE
@@ -83,6 +88,17 @@ class HomeFragment : BaseFragment() {
                 is States.GetPokemonListState.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
+            }
+        }
+    }
+
+    private fun setUpSearch(){
+        binding.edtSearch.addTextChangedListener {
+            val filterList = viewModel.filter(binding.edtSearch.text.toString())
+            filterList?.let {
+                pokemonAdapter.updateItemsHome(it)
+            } ?: kotlin.run {
+                Toast.makeText(requireContext(), "Pokemon não encontrado", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -103,6 +119,7 @@ class HomeFragment : BaseFragment() {
                         && totalItemCount >= viewModel.pageSize
                     ) {
                         viewModel.getPokemonList()
+                        viewModel.page++
                     }
                 }
             }
