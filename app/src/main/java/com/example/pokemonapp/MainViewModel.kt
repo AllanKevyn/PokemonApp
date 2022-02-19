@@ -1,7 +1,7 @@
 package com.example.pokemonapp
 
 import com.example.pokemonapp.base.BaseViewModel
-import com.example.pokemonapp.usecase.HomeUseCase
+import com.example.pokemonapp.usecase.home.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

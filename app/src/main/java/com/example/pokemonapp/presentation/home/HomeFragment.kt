@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,17 +17,16 @@ import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentHomeBinding
 import com.example.pokemonapp.responses.PokemonListEntry
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
-
 
     private val viewModel by viewModels<HomeViewModel>()
     override fun getBaseViewModel() = viewModel
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var pokemonAdapter: PokemonAdapter
-
     private lateinit var layoutManager: GridLayoutManager
 
     override fun onCreateView(
@@ -60,7 +58,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setUpObservers() {
-        viewModel.supplierResult.observe(
+        viewModel.pokeListResult.observe(
             viewLifecycleOwner
         ) { state ->
             when (state) {
@@ -97,7 +95,9 @@ class HomeFragment : BaseFragment() {
 
     private fun setUpSearch(){
         binding.edtSearch.addTextChangedListener {
-            val filterList = viewModel.filter(binding.edtSearch.text.toString())
+            val filterList = viewModel.filter(
+                binding.edtSearch.text.toString().lowercase(Locale.getDefault())
+            )
             filterList?.let {
                 pokemonAdapter.updateItemsHome(it)
             } ?: kotlin.run {

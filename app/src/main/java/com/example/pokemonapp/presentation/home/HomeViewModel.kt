@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.pokemonapp.base.BaseViewModel
 import com.example.pokemonapp.base.States
 import com.example.pokemonapp.responses.PokemonListEntry
-import com.example.pokemonapp.usecase.HomeUseCase
+import com.example.pokemonapp.usecase.home.HomeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -18,10 +18,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeUseCase: HomeUseCase) : BaseViewModel() {
+    private val homeUseCase: HomeUseCase
+) : BaseViewModel() {
 
-    private var _supplierResult = MutableLiveData<States.GetPokemonListState>()
-    val supplierResult: LiveData<States.GetPokemonListState> = _supplierResult
+    private var _pokeListResult = MutableLiveData<States.GetPokemonListState>()
+    val pokeListResult: LiveData<States.GetPokemonListState> = _pokeListResult
 
     private var _pokemonItems = MutableLiveData<List<PokemonListEntry>>().apply { value = ArrayList()}
     var pokemonItems: LiveData<List<PokemonListEntry>> = _pokemonItems
@@ -33,9 +34,9 @@ class HomeViewModel @Inject constructor(
     fun getPokemonList() {
         viewModelScope.launch { homeUseCase.getPokemonList(pageSize, page )
             .flowOn(Dispatchers.Main)
-            .onStart { _supplierResult.value = States.GetPokemonListState.Loading }
-            .catch { _supplierResult.value = States.GetPokemonListState.Failure(it.message.toString()) }
-            .collect { _supplierResult.value = States.GetPokemonListState.Success(it) }
+            .onStart { _pokeListResult.value = States.GetPokemonListState.Loading }
+            .catch { _pokeListResult.value = States.GetPokemonListState.Failure(it.message.toString()) }
+            .collect { _pokeListResult.value = States.GetPokemonListState.Success(it) }
         }
     }
 
