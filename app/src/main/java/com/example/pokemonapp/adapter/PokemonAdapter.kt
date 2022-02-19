@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso
 class PokemonAdapter() : RecyclerView.Adapter<PokemonAdapter.Holder>() {
 
     private var pokemonItems: List<PokemonListEntry> = ArrayList()
-    lateinit var onItemClicked: () -> Unit
+    lateinit var onItemClicked: (PokemonListEntry) -> Unit
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateItemsHome(pokemonList: List<PokemonListEntry>) {
@@ -37,7 +37,7 @@ class PokemonAdapter() : RecyclerView.Adapter<PokemonAdapter.Holder>() {
 
     class Holder(
         private val binding: ItemHomeBinding,
-        private val onItemClicked: () -> Unit
+        private val onItemClicked: (PokemonListEntry) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         lateinit var content: PokemonListEntry
@@ -49,7 +49,7 @@ class PokemonAdapter() : RecyclerView.Adapter<PokemonAdapter.Holder>() {
             binding.pkmName.text = content.pokemonName
 
             binding.root.setOnClickListener {
-                onItemClicked.invoke()
+                onItemClicked.invoke(content)
             }
         }
     }

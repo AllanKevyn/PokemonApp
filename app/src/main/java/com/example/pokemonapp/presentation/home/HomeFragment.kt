@@ -15,6 +15,7 @@ import com.example.pokemonapp.adapter.PokemonAdapter
 import com.example.pokemonapp.base.BaseFragment
 import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentHomeBinding
+import com.example.pokemonapp.presentation.detail.PokemonDetailFragment
 import com.example.pokemonapp.responses.PokemonListEntry
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -28,6 +29,7 @@ class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var pokemonAdapter: PokemonAdapter
     private lateinit var layoutManager: GridLayoutManager
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,8 +54,12 @@ class HomeFragment : BaseFragment() {
         layoutManager = GridLayoutManager(binding.rvPokemon.context, 2)
         binding.rvPokemon.layoutManager = layoutManager
         binding.rvPokemon.addOnScrollListener(this@HomeFragment.scrollListener)
+
         pokemonAdapter.onItemClicked = {
-            findNavController().navigate(R.id.action_homeFragment_to_pokemonDetailFragment)
+            val bundle = Bundle().apply {
+                putSerializable(PokemonDetailFragment.DETAIL, it)
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_pokemonDetailFragment, bundle)
         }
     }
 

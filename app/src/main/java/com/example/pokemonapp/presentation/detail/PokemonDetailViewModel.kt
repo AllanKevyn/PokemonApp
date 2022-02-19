@@ -24,8 +24,8 @@ class PokemonDetailViewModel @Inject constructor(
     val pokeDetailResult: LiveData<States.GetPokemonDetailState> = _pokeDetailResult
 
 
-    fun getPokemonList() {
-        viewModelScope.launch { detailUseCase.getPokemonList("charizard")
+    fun getPokemonList(pokeName: String) {
+        viewModelScope.launch { detailUseCase.getPokemonList(pokeName)
             .flowOn(Dispatchers.Main)
             .onStart { _pokeDetailResult.value = States.GetPokemonDetailState.Loading }
             .catch { _pokeDetailResult.value = States.GetPokemonDetailState.Failure(it.message.toString()) }

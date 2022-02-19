@@ -14,6 +14,7 @@ import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentPokemonDetailBinding
 import com.example.pokemonapp.presentation.home.HomeViewModel
 import com.example.pokemonapp.responses.PokemonListEntry
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +24,7 @@ class PokemonDetailFragment : BaseFragment() {
     override fun getBaseViewModel() = viewModel
 
     private lateinit var binding: FragmentPokemonDetailBinding
+    private lateinit var pokeDetail: PokemonListEntry
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,15 +36,22 @@ class PokemonDetailFragment : BaseFragment() {
     }
 
     private fun setUp(){
-        viewModel.getPokemonList()
+        pokeDetail = arguments?.getSerializable(DETAIL) as PokemonListEntry
+        viewModel.getPokemonList(pokeDetail.pokemonName)
         setUpClicks()
         setUpObservers()
+        setUpItemsView()
     }
 
     private fun setUpClicks(){
         binding.back.setOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    private fun setUpItemsView(){
+        Picasso.get().load(pokeDetail.imageUrl).into(binding.image)
+        binding.name.text = pokeDetail.pokemonName
     }
 
     private fun setUpObservers() {
@@ -63,5 +72,9 @@ class PokemonDetailFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    companion object{
+        const val DETAIL = "detail"
     }
 }
