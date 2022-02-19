@@ -23,13 +23,8 @@ class HomeViewModel @Inject constructor(
     private var _supplierResult = MutableLiveData<States.GetPokemonListState>()
     val supplierResult: LiveData<States.GetPokemonListState> = _supplierResult
 
-    private var _pokemonList = MutableLiveData<List<PokemonListEntry>>()
-    val pokemonList: LiveData<List<PokemonListEntry>> = _pokemonList
-
-    private var _filterItems = MutableLiveData<List<PokemonListEntry>>()
-    val filterItems: LiveData<List<PokemonListEntry>> = _filterItems
-
-    private var pokemonItems: List<PokemonListEntry> = ArrayList()
+    private var _pokemonItems = MutableLiveData<List<PokemonListEntry>>().apply { value = ArrayList()}
+    var pokemonItems: LiveData<List<PokemonListEntry>> = _pokemonItems
 
     var page = 0
     var pageSize = 30
@@ -45,7 +40,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun filter(filterText: String): List<PokemonListEntry>?{
-        val list = pokemonItems.filter { it.pokemonName.contains(filterText)}
+        val list = _pokemonItems.value?.filter { it.pokemonName.contains(filterText)}
         list?.let{
             return it
         }
@@ -53,6 +48,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun setList(list: List<PokemonListEntry>){
-        pokemonItems = list
+        _pokemonItems.value = list
     }
 }
