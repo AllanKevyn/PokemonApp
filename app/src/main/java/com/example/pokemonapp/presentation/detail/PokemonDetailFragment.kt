@@ -1,18 +1,14 @@
 package com.example.pokemonapp.presentation.detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.pokemonapp.base.BaseFragment
-import com.example.pokemonapp.base.BaseViewModel
 import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentPokemonDetailBinding
-import com.example.pokemonapp.presentation.home.HomeViewModel
 import com.example.pokemonapp.responses.PokemonListEntry
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +36,6 @@ class PokemonDetailFragment : BaseFragment() {
         viewModel.getPokemonList(pokeDetail.pokemonName)
         setUpClicks()
         setUpObservers()
-        setUpItemsView()
     }
 
     private fun setUpClicks(){
@@ -49,9 +44,17 @@ class PokemonDetailFragment : BaseFragment() {
         }
     }
 
-    private fun setUpItemsView(){
+    private fun concatenation(str1: String, str2: String): String {
+        val builder = StringBuilder()
+        builder.append(str1).append(str2)
+        return builder.toString()
+    }
+
+    private fun setUpItemsView(t: States.GetPokemonDetailState.Success){
         Picasso.get().load(pokeDetail.imageUrl).into(binding.image)
         binding.name.text = pokeDetail.pokemonName
+        binding.weight.text = concatenation(t.pokeInf.weight.toString(), " Kg")
+        binding.height.text = concatenation(t.pokeInf.height.toString(), " m")
     }
 
     private fun setUpObservers() {
@@ -61,7 +64,7 @@ class PokemonDetailFragment : BaseFragment() {
             when (state) {
                 is States.GetPokemonDetailState.Success -> {
                     binding.progressBar.visibility = View.GONE
-
+                    setUpItemsView(state)
                 }
                 is States.GetPokemonDetailState.Failure -> {
                     binding.progressBar.visibility = View.GONE
