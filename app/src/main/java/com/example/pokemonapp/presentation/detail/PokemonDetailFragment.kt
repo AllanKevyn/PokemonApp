@@ -6,6 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.pokemonapp.R
+import com.example.pokemonapp.adapter.PokemonAdapter
+import com.example.pokemonapp.adapter.PokemonTypeAdapter
 import com.example.pokemonapp.base.BaseFragment
 import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentPokemonDetailBinding
@@ -21,6 +25,7 @@ class PokemonDetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentPokemonDetailBinding
     private lateinit var pokeDetail: PokemonListEntry
+    private lateinit var typeAdapter: PokemonTypeAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,12 +40,25 @@ class PokemonDetailFragment : BaseFragment() {
         pokeDetail = arguments?.getSerializable(DETAIL) as PokemonListEntry
         viewModel.getPokemonList(pokeDetail.pokemonName)
         setUpClicks()
+        setUpAdapters()
         setUpObservers()
     }
 
     private fun setUpClicks(){
         binding.back.setOnClickListener {
             findNavController().popBackStack()
+        }
+    }
+
+    private fun setUpAdapters() {
+        typeAdapter = PokemonTypeAdapter()
+        binding.rvType.adapter = typeAdapter
+
+        typeAdapter.onItemClicked = {
+//            val bundle = Bundle().apply {
+//                putSerializable(PokemonDetailFragment.DETAIL, it)
+//            }
+//            findNavController().navigate(R.id.action_homeFragment_to_pokemonDetailFragment)
         }
     }
 
