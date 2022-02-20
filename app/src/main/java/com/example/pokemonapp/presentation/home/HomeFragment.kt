@@ -99,15 +99,18 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun setUpSearch(){
+    private fun setUpSearch() {
         binding.edtSearch.addTextChangedListener {
-            val filterList = viewModel.filter(
-                binding.edtSearch.text.toString().lowercase(Locale.getDefault())
-            )
+            val filterList =
+                viewModel.filter(binding.edtSearch.text.toString().lowercase(Locale.getDefault()))
+
             filterList?.let {
+                binding.tvNotFound.visibility = View.GONE
                 pokemonAdapter.updateItemsHome(it)
-            } ?: kotlin.run {
-                Toast.makeText(requireContext(), "Pokemon não encontrado", Toast.LENGTH_SHORT).show()
+            }
+
+            if (filterList?.size == 0) {
+                binding.tvNotFound.visibility = View.VISIBLE
             }
         }
     }
