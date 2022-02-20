@@ -24,17 +24,22 @@ class BottomSheetFragment() : BottomSheetDialogFragment() {
     ): View? {
         binding = FragmentBottomSheetBinding.inflate(inflater, container, false)
         pokeName = arguments?.getSerializable(POKE_NAME) as Ability
-        setText()
+        setUp()
         return binding.root
     }
 
-    private fun setText(){
-        if(pokeName.ability.name == "overgrow"){
-            binding.typeInf.text = "DEU CERTO OVER"
-        }
+    private fun setUp(){
+        setUpText()
+        setUpClicks()
+    }
 
-        if(pokeName.ability.name == "chlorophyll"){
-            binding.typeInf.text = "DEU CERTO PARA CHLORO"
+    private fun setUpText(){
+        binding.typeInf.text = pokeName.ability.name
+    }
+
+    private fun setUpClicks(){
+        binding.close.setOnClickListener {
+            dismiss()
         }
     }
 
