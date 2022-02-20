@@ -1,5 +1,6 @@
 package com.example.pokemonapp.presentation.detail
 
+import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.example.pokemonapp.adapter.detail.PokemonTypeAdapter
 import com.example.pokemonapp.base.BaseFragment
 import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentPokemonDetailBinding
+import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment
 import com.example.pokemonapp.responses.PokemonListEntry
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +28,7 @@ class PokemonDetailFragment : BaseFragment() {
     private lateinit var pokeDetail: PokemonListEntry
     private lateinit var typeAdapter: PokemonTypeAdapter
     private lateinit var abilitiesAdapter: AbilitiesAdapter
+    private val bottomSheet = BottomSheetFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +68,7 @@ class PokemonDetailFragment : BaseFragment() {
         binding.rvAbilities.adapter = abilitiesAdapter
 
         abilitiesAdapter.onItemClicked = {
-
+            bottomSheet.show(childFragmentManager, "")
         }
     }
 
