@@ -1,6 +1,6 @@
 package com.example.pokemonapp.di
 
-import com.example.pokemonapp.enpoints.HomeApi
+import com.example.pokemonapp.endpoints.HomeApi
 import com.example.pokemonapp.repository.HomeRepository
 import com.example.pokemonapp.repository.HomeRepositoryImpl
 import dagger.Module

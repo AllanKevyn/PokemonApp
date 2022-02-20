@@ -1,4 +1,4 @@
-package com.example.pokemonapp.enpoints
+package com.example.pokemonapp.endpoints
 
 import com.example.pokemonapp.responses.Pokemon
 import com.example.pokemonapp.responses.PokemonList

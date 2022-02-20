@@ -1,6 +1,6 @@
 package com.example.pokemonapp.repository
 
-import com.example.pokemonapp.enpoints.HomeApi
+import com.example.pokemonapp.endpoints.HomeApi
 import com.example.pokemonapp.responses.Pokemon
 import com.example.pokemonapp.responses.PokemonList
 import kotlinx.coroutines.flow.Flow

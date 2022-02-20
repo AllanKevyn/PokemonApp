@@ -1,6 +1,6 @@
 package com.example.pokemonapp.di
 
-import com.example.pokemonapp.enpoints.HomeEndPoint
+import com.example.pokemonapp.endpoints.HomeEndPoint
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

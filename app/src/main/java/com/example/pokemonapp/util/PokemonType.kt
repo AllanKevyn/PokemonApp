@@ -4,6 +4,8 @@ import com.example.pokemonapp.R
 
 object PokemonType {
 
+    var list : String = ""
+
     fun getTypeColor(type: String): Int {
         return when (type) {
             "fighting" -> R.color.fighting

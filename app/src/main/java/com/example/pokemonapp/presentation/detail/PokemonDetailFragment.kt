@@ -13,6 +13,7 @@ import com.example.pokemonapp.base.BaseFragment
 import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentPokemonDetailBinding
 import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment
+import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment.Companion.POKE_NAME
 import com.example.pokemonapp.responses.PokemonListEntry
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -68,7 +69,10 @@ class PokemonDetailFragment : BaseFragment() {
         binding.rvAbilities.adapter = abilitiesAdapter
 
         abilitiesAdapter.onItemClicked = {
-            bottomSheet.show(childFragmentManager, "")
+            val bundle = Bundle().apply {
+                putSerializable(POKE_NAME, it)}
+            bottomSheet.arguments = bundle
+            bottomSheet.show(childFragmentManager, POKE_NAME)
         }
     }
 
