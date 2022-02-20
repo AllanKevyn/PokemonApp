@@ -70,6 +70,7 @@ class PokemonDetailFragment : BaseFragment() {
 
     private fun setUpItemsView(t: States.GetPokemonDetailState.Success){
         Picasso.get().load(pokeDetail.imageUrl).into(binding.image)
+        binding.pkNumber.text = pokeDetail.number.toString()
         binding.name.text = pokeDetail.pokemonName
         binding.weight.text = concatenation(t.pokeInf.weight.toString(), " Kg")
         binding.height.text = concatenation(t.pokeInf.height.toString(), " m")

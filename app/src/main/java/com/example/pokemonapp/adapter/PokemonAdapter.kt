@@ -46,8 +46,8 @@ class PokemonAdapter() : RecyclerView.Adapter<PokemonAdapter.Holder>() {
             this.content = content
 
             Picasso.get().load(content.imageUrl).into(binding.pkmImage)
+            binding.pkNumber.text = content.number.toString()
             binding.pkmName.text = content.pokemonName
-
             binding.root.setOnClickListener {
                 onItemClicked.invoke(content)
             }
