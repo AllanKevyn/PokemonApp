@@ -1,6 +1,5 @@
 package com.example.pokemonapp.presentation.detail
 
-import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,6 @@ import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment.Compa
 import com.example.pokemonapp.responses.PokemonListEntry
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class PokemonDetailFragment : BaseFragment() {
@@ -43,6 +41,7 @@ class PokemonDetailFragment : BaseFragment() {
     private fun setUp(){
         pokeDetail = arguments?.getSerializable(DETAIL) as PokemonListEntry
         viewModel.getPokemonList(pokeDetail.pokemonName)
+        viewModel.getAbilityDetail(66)
         setUpClicks()
         setUpAdapters()
         setUpObservers()
@@ -112,6 +111,24 @@ class PokemonDetailFragment : BaseFragment() {
 
                 }
                 is States.GetPokemonDetailState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        viewModel.pokeAbilityResult.observe(
+            viewLifecycleOwner
+        ) { state ->
+            when (state) {
+                is States.GetPokemonAbilityState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+
+                }
+                is States.GetPokemonAbilityState.Failure -> {
+                    binding.progressBar.visibility = View.GONE
+
+                }
+                is States.GetPokemonAbilityState.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
             }

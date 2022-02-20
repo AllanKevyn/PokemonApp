@@ -23,6 +23,9 @@ class PokemonDetailViewModel @Inject constructor(
     private var _pokeDetailResult = MutableLiveData<States.GetPokemonDetailState>()
     val pokeDetailResult: LiveData<States.GetPokemonDetailState> = _pokeDetailResult
 
+    private var _pokeAbilityResult = MutableLiveData<States.GetPokemonAbilityState>()
+    val pokeAbilityResult: LiveData<States.GetPokemonAbilityState> = _pokeAbilityResult
+
 
     fun getPokemonList(pokeName: String) {
         viewModelScope.launch { detailUseCase.getPokemonList(pokeName)
@@ -32,4 +35,13 @@ class PokemonDetailViewModel @Inject constructor(
             .collect { _pokeDetailResult.value = States.GetPokemonDetailState.Success(it) }
         }
     }
+    fun getAbilityDetail(abilityId: Int) {
+        viewModelScope.launch { detailUseCase.getAbilityDetail(abilityId)
+            .flowOn(Dispatchers.Main)
+            .onStart { _pokeAbilityResult.value = States.GetPokemonAbilityState.Loading }
+            .catch { _pokeAbilityResult.value = States.GetPokemonAbilityState.Failure(it.message.toString()) }
+            .collect { _pokeAbilityResult.value = States.GetPokemonAbilityState.Success(it) }
+        }
+    }
+
 }
