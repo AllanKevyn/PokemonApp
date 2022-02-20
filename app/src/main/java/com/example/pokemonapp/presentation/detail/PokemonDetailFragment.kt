@@ -12,8 +12,11 @@ import com.example.pokemonapp.base.BaseFragment
 import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentPokemonDetailBinding
 import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment
+import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment.Companion.ABILITY_DETAIL
 import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment.Companion.POKE_NAME
+import com.example.pokemonapp.responses.Ability
 import com.example.pokemonapp.responses.PokemonListEntry
+import com.example.pokemonapp.responses.ability.PokemonAbility
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +30,7 @@ class PokemonDetailFragment : BaseFragment() {
     private lateinit var pokeDetail: PokemonListEntry
     private lateinit var typeAdapter: PokemonTypeAdapter
     private lateinit var abilitiesAdapter: AbilitiesAdapter
+    private lateinit var pokeAbilityDetail: PokemonAbility
     private val bottomSheet = BottomSheetFragment()
 
     override fun onCreateView(
@@ -68,11 +72,17 @@ class PokemonDetailFragment : BaseFragment() {
         binding.rvAbilities.adapter = abilitiesAdapter
 
         abilitiesAdapter.onItemClicked = {
-            val bundle = Bundle().apply {
-                putSerializable(POKE_NAME, it)}
+//            val bundle = Bundle().apply {
+//                putSerializable(POKE_NAME, it) }
+          //  BottomSheetFragment(callAbilityInf = { id -> viewModel.getAbilityDetail(id) }).show(childFragmentManager, POKE_NAME)
+
+            val bundle = Bundle().apply { putSerializable(POKE_NAME, it)
+            putSerializable(ABILITY_DETAIL, pokeAbilityDetail)}
             bottomSheet.arguments = bundle
+            BottomSheetFragment.newInstance { abilityId -> viewModel.getAbilityDetail(abilityId) }
             bottomSheet.show(childFragmentManager, POKE_NAME)
-        }
+
+    }
     }
 
     private fun concatenation(str1: String, str2: String): String {
@@ -122,6 +132,7 @@ class PokemonDetailFragment : BaseFragment() {
             when (state) {
                 is States.GetPokemonAbilityState.Success -> {
                     binding.progressBar.visibility = View.GONE
+                    pokeAbilityDetail = state.pokeAbilityInf
 
                 }
                 is States.GetPokemonAbilityState.Failure -> {
