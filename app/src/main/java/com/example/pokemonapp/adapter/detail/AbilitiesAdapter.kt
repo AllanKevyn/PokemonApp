@@ -1,62 +1,54 @@
-package com.example.pokemonapp.adapter
+package com.example.pokemonapp.adapter.detail
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pokemonapp.databinding.ItemDetailBinding
-import com.example.pokemonapp.responses.Type
-import com.example.pokemonapp.util.PokemonType
+import com.example.pokemonapp.databinding.ItemAbilitiesBinding
+import com.example.pokemonapp.responses.Ability
+import com.example.pokemonapp.responses.AbilityX
 
-class PokemonTypeAdapter : RecyclerView.Adapter<PokemonTypeAdapter.Holder>() {
+class AbilitiesAdapter : RecyclerView.Adapter<AbilitiesAdapter.Holder>() {
 
-    private var typeItems: List<Type> = ArrayList()
+    private var abilitiesItems: List<Ability> = ArrayList()
     lateinit var onItemClicked: () -> Unit
     lateinit var context: Context
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateTypeItems(pokemonList: List<Type>) {
-        typeItems = pokemonList
+    fun updateAbilityItems(abilitiesList: List<Ability>) {
+        abilitiesItems = abilitiesList
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(typeItems[position])
+        holder.bind(abilitiesItems[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(
-            ItemDetailBinding.inflate(
+            ItemAbilitiesBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             ), onItemClicked, context = parent.context
         )
     }
 
     override fun getItemCount(): Int {
-        return typeItems.size
+        return abilitiesItems.size
     }
 
     class Holder(
-        private val binding: ItemDetailBinding,
+        private val binding: ItemAbilitiesBinding,
         private val onItemClicked: () -> Unit,
         private val context: Context
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        lateinit var content: Type
+        lateinit var content: Ability
 
-        fun bind(content: Type) {
+        fun bind(content: Ability) {
             this.content = content
-            content.type.name
-            binding.type.text = content.type.name
-            binding.cardV.background.setTint(
-                ContextCompat.getColor(
-                    context,
-                    PokemonType.getTypeColor(content.type.name)
-                )
-            )
 
+            binding.tvAbility.text = content.ability.name
             binding.root.setOnClickListener {
                 onItemClicked.invoke()
             }

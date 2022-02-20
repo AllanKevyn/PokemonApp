@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemonapp.R
-import com.example.pokemonapp.adapter.PokemonAdapter
+import com.example.pokemonapp.adapter.home.PokemonAdapter
 import com.example.pokemonapp.base.BaseFragment
 import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentHomeBinding

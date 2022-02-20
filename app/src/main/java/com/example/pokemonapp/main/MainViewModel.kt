@@ -1,4 +1,4 @@
-package com.example.pokemonapp
+package com.example.pokemonapp.main
 
 import com.example.pokemonapp.base.BaseViewModel
 import com.example.pokemonapp.usecase.home.HomeUseCase

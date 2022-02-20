@@ -1,4 +1,4 @@
-package com.example.pokemonapp.adapter
+package com.example.pokemonapp.adapter.home
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

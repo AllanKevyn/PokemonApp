@@ -28,7 +28,7 @@
         android:layout_marginTop="16dp"
         android:maxLines="1"
         android:background="@drawable/bg_edit_text"
-        android:hint="Pesquisar..."
+        android:hint="Search..."
         android:paddingHorizontal="14dp" />
 
     <androidx.recyclerview.widget.RecyclerView

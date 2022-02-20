@@ -6,16 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.pokemonapp.R
-import com.example.pokemonapp.adapter.PokemonAdapter
-import com.example.pokemonapp.adapter.PokemonTypeAdapter
+import com.example.pokemonapp.adapter.detail.AbilitiesAdapter
+import com.example.pokemonapp.adapter.detail.PokemonTypeAdapter
 import com.example.pokemonapp.base.BaseFragment
 import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentPokemonDetailBinding
 import com.example.pokemonapp.responses.PokemonListEntry
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class PokemonDetailFragment : BaseFragment() {
@@ -26,6 +25,7 @@ class PokemonDetailFragment : BaseFragment() {
     private lateinit var binding: FragmentPokemonDetailBinding
     private lateinit var pokeDetail: PokemonListEntry
     private lateinit var typeAdapter: PokemonTypeAdapter
+    private lateinit var abilitiesAdapter: AbilitiesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +60,13 @@ class PokemonDetailFragment : BaseFragment() {
 //            }
 //            findNavController().navigate(R.id.action_homeFragment_to_pokemonDetailFragment)
         }
+
+        abilitiesAdapter = AbilitiesAdapter()
+        binding.rvAbilities.adapter = abilitiesAdapter
+
+        abilitiesAdapter.onItemClicked = {
+
+        }
     }
 
     private fun concatenation(str1: String, str2: String): String {
@@ -86,10 +93,11 @@ class PokemonDetailFragment : BaseFragment() {
         viewModel.pokeDetailResult.observe(
             viewLifecycleOwner
         ) { state ->
-            when (state) {
-                is States.GetPokemonDetailState.Success -> {
+                when (state) {
+                 is States.GetPokemonDetailState.Success -> {
                     binding.progressBar.visibility = View.GONE
                     typeAdapter.updateTypeItems(state.pokeInf.types)
+                     abilitiesAdapter.updateAbilityItems(state.pokeInf.abilities)
                     setUpItemsView(state)
                 }
                 is States.GetPokemonDetailState.Failure -> {
