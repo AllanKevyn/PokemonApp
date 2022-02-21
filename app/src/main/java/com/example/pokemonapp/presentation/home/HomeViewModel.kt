@@ -32,7 +32,6 @@ class HomeViewModel @Inject constructor(
     var isLastPage : Boolean = false
 
     fun getPokemonList() {
-        if (!nonBlockingLoading.value!!)
         viewModelScope.launch { homeUseCase.getPokemonList(pageSize, page )
             .flowOn(Dispatchers.Main)
             .onStart { _pokeListResult.value = States.GetPokemonListState.Loading }

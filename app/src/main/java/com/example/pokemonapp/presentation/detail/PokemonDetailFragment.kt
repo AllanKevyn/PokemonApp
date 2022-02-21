@@ -45,6 +45,7 @@ class PokemonDetailFragment : BaseFragment() {
         pokeDetail = arguments?.getSerializable(DETAIL) as PokemonListEntry
         viewModel.getPokemonList(pokeDetail.pokemonName)
         viewModel.getAbilityDetail(66)
+        viewModel.getEvolution(1)
         setUpClicks()
         setUpAdapters()
         setUpObservers()
@@ -134,6 +135,25 @@ class PokemonDetailFragment : BaseFragment() {
 
                 }
                 is States.GetPokemonAbilityState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+            }
+        }
+
+        viewModel.pokeEvolutionResult.observe(
+            viewLifecycleOwner
+        ) { state ->
+            when (state) {
+                is States.GetPokemonEvolutionState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    //pokeAbilityDetail = state.pokeAbilityInf
+
+                }
+                is States.GetPokemonEvolutionState.Failure -> {
+                    binding.progressBar.visibility = View.GONE
+
+                }
+                is States.GetPokemonEvolutionState.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
             }
