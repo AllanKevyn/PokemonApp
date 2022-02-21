@@ -2,7 +2,7 @@ package com.example.pokemonapp.responses
 
 data class PokemonList(
     val count: Int,
-    val next: String,
+    val next: String?,
     val previous: Any,
     val results: List<PokemonListResult>
 )

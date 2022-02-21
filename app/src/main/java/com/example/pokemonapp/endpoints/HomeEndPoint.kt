@@ -3,6 +3,7 @@ package com.example.pokemonapp.endpoints
 import com.example.pokemonapp.responses.Pokemon
 import com.example.pokemonapp.responses.PokemonList
 import com.example.pokemonapp.responses.ability.PokemonAbility
+import com.example.pokemonapp.responses.evolution.Evolutions
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -24,4 +25,9 @@ interface HomeEndPoint {
     suspend fun getAbilityDetail(
         @Path("number") abilityId: Int
     ): PokemonAbility
+
+    @GET("evolution-chain/{id}/")
+    suspend fun getEvolution(
+        @Path("id") id: Int
+    ): Evolutions
 }

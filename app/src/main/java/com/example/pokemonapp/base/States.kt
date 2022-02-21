@@ -3,6 +3,7 @@ package com.example.pokemonapp.base
 import com.example.pokemonapp.responses.Pokemon
 import com.example.pokemonapp.responses.PokemonList
 import com.example.pokemonapp.responses.ability.PokemonAbility
+import com.example.pokemonapp.responses.evolution.Evolutions
 
 abstract class States {
 
@@ -22,5 +23,11 @@ abstract class States {
         object Loading : GetPokemonAbilityState()
         data class Success(val pokeAbilityInf: PokemonAbility) : GetPokemonAbilityState()
         data class Failure(val error: String) : GetPokemonAbilityState()
+    }
+
+    sealed class GetPokemonEvolutionState {
+        object Loading : GetPokemonEvolutionState()
+        data class Success(val pokeEvolutions: Evolutions) : GetPokemonEvolutionState()
+        data class Failure(val error: String) : GetPokemonEvolutionState()
     }
 }

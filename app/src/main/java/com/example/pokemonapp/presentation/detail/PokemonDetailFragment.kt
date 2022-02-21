@@ -14,7 +14,6 @@ import com.example.pokemonapp.databinding.FragmentPokemonDetailBinding
 import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment
 import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment.Companion.ABILITY_DETAIL
 import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment.Companion.POKE_NAME
-import com.example.pokemonapp.responses.Ability
 import com.example.pokemonapp.responses.PokemonListEntry
 import com.example.pokemonapp.responses.ability.PokemonAbility
 import com.squareup.picasso.Picasso
@@ -42,7 +41,7 @@ class PokemonDetailFragment : BaseFragment() {
         return binding.root
     }
 
-    private fun setUp(){
+    private fun setUp() {
         pokeDetail = arguments?.getSerializable(DETAIL) as PokemonListEntry
         viewModel.getPokemonList(pokeDetail.pokemonName)
         viewModel.getAbilityDetail(66)
@@ -51,7 +50,7 @@ class PokemonDetailFragment : BaseFragment() {
         setUpObservers()
     }
 
-    private fun setUpClicks(){
+    private fun setUpClicks() {
         binding.back.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -62,27 +61,22 @@ class PokemonDetailFragment : BaseFragment() {
         binding.rvType.adapter = typeAdapter
 
         typeAdapter.onItemClicked = {
-//            val bundle = Bundle().apply {
-//                putSerializable(PokemonDetailFragment.DETAIL, it)
-//            }
-//            findNavController().navigate(R.id.action_homeFragment_to_pokemonDetailFragment)
         }
 
         abilitiesAdapter = AbilitiesAdapter()
         binding.rvAbilities.adapter = abilitiesAdapter
 
         abilitiesAdapter.onItemClicked = {
-//            val bundle = Bundle().apply {
-//                putSerializable(POKE_NAME, it) }
-          //  BottomSheetFragment(callAbilityInf = { id -> viewModel.getAbilityDetail(id) }).show(childFragmentManager, POKE_NAME)
 
-            val bundle = Bundle().apply { putSerializable(POKE_NAME, it)
-            putSerializable(ABILITY_DETAIL, pokeAbilityDetail)}
+            val bundle = Bundle().apply {
+                putSerializable(POKE_NAME, it)
+                putSerializable(ABILITY_DETAIL, pokeAbilityDetail)
+            }
             bottomSheet.arguments = bundle
             BottomSheetFragment.newInstance { abilityId -> viewModel.getAbilityDetail(abilityId) }
             bottomSheet.show(childFragmentManager, POKE_NAME)
 
-    }
+        }
     }
 
     private fun concatenation(str1: String, str2: String): String {
@@ -91,7 +85,7 @@ class PokemonDetailFragment : BaseFragment() {
         return builder.toString()
     }
 
-    private fun setUpItemsView(t: States.GetPokemonDetailState.Success){
+    private fun setUpItemsView(t: States.GetPokemonDetailState.Success) {
         Picasso.get().load(pokeDetail.imageUrl).into(binding.image)
         binding.pkNumber.text = pokeDetail.number.toString()
         binding.name.text = pokeDetail.pokemonName
@@ -109,11 +103,11 @@ class PokemonDetailFragment : BaseFragment() {
         viewModel.pokeDetailResult.observe(
             viewLifecycleOwner
         ) { state ->
-                when (state) {
-                 is States.GetPokemonDetailState.Success -> {
+            when (state) {
+                is States.GetPokemonDetailState.Success -> {
                     binding.progressBar.visibility = View.GONE
                     typeAdapter.updateTypeItems(state.pokeInf.types)
-                     abilitiesAdapter.updateAbilityItems(state.pokeInf.abilities)
+                    abilitiesAdapter.updateAbilityItems(state.pokeInf.abilities)
                     setUpItemsView(state)
                 }
                 is States.GetPokemonDetailState.Failure -> {
@@ -146,7 +140,7 @@ class PokemonDetailFragment : BaseFragment() {
         }
     }
 
-    companion object{
+    companion object {
         const val DETAIL = "detail"
     }
 }

@@ -41,6 +41,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setUpAll() {
+        viewModel.page = 0
         viewModel.getPokemonList()
         setUpAdapters()
         setUpObservers()
@@ -49,9 +50,8 @@ class HomeFragment : BaseFragment() {
 
     private fun setUpAdapters() {
         pokemonAdapter = PokemonAdapter()
-        binding.rvPokemon.adapter = pokemonAdapter
-
         layoutManager = GridLayoutManager(binding.rvPokemon.context, 2)
+        binding.rvPokemon.adapter = pokemonAdapter
         binding.rvPokemon.layoutManager = layoutManager
         binding.rvPokemon.addOnScrollListener(this@HomeFragment.scrollListener)
 
@@ -70,6 +70,7 @@ class HomeFragment : BaseFragment() {
             when (state) {
                 is States.GetPokemonListState.Success -> {
                     binding.progressBar.visibility = View.GONE
+                    viewModel.isLastPage = state.list.next == null
                     val pokemonEntries = state.list.results.mapIndexed { index, pokemonListResult ->
                         val number = if (pokemonListResult.url.endsWith("/")) {
                             pokemonListResult.url.dropLast(1).takeLastWhile { it.isDigit() }
@@ -80,6 +81,7 @@ class HomeFragment : BaseFragment() {
                             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png"
                         PokemonListEntry(pokemonListResult.name, url, number.toInt())
                     }
+
                     viewModel.setList(pokemonEntries)
                     pokemonAdapter.updateItemsHome(pokemonEntries)
 
@@ -120,7 +122,6 @@ class HomeFragment : BaseFragment() {
             super.onScrolled(recyclerView, dx, dy)
 
             if (dy > 0) {
-
                 val visibleItemCount = layoutManager.childCount
                 val totalItemCount = layoutManager.itemCount
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
@@ -130,8 +131,8 @@ class HomeFragment : BaseFragment() {
                         && firstVisibleItemPosition >= 0
                         && totalItemCount >= viewModel.pageSize
                     ) {
-                        viewModel.getPokemonList()
                         viewModel.page++
+                        viewModel.getPokemonList()
                     }
                 }
             }
