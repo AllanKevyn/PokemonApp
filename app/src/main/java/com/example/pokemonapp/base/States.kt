@@ -4,6 +4,7 @@ import com.example.pokemonapp.responses.Pokemon
 import com.example.pokemonapp.responses.PokemonList
 import com.example.pokemonapp.responses.ability.PokemonAbility
 import com.example.pokemonapp.responses.evolution.Evolutions
+import com.example.pokemonapp.responses.typelist.TypeList
 
 abstract class States {
 
@@ -29,5 +30,11 @@ abstract class States {
         object Loading : GetPokemonEvolutionState()
         data class Success(val pokeEvolutions: Evolutions) : GetPokemonEvolutionState()
         data class Failure(val error: String) : GetPokemonEvolutionState()
+    }
+
+    sealed class GetTypeListState {
+        object Loading : GetTypeListState()
+        data class Success(val typeList: TypeList) : GetTypeListState()
+        data class Failure(val error: String) : GetTypeListState()
     }
 }

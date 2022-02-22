@@ -1,6 +1,6 @@
 package com.example.pokemonapp.usecase.detail
 
-import com.example.pokemonapp.repository.HomeRepository
+import com.example.pokemonapp.repository.home.HomeRepository
 import com.example.pokemonapp.responses.Pokemon
 import com.example.pokemonapp.responses.ability.PokemonAbility
 import com.example.pokemonapp.responses.evolution.Evolutions

@@ -1,6 +1,6 @@
 package com.example.pokemonapp.usecase.home
 
-import com.example.pokemonapp.repository.HomeRepository
+import com.example.pokemonapp.repository.home.HomeRepository
 import com.example.pokemonapp.responses.PokemonList
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

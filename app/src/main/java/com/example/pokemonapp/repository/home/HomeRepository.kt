@@ -1,4 +1,4 @@
-package com.example.pokemonapp.repository
+package com.example.pokemonapp.repository.home
 
 import com.example.pokemonapp.responses.Pokemon
 import com.example.pokemonapp.responses.PokemonList

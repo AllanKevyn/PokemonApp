@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.pokemonapp.R
 import com.example.pokemonapp.adapter.detail.AbilitiesAdapter
 import com.example.pokemonapp.adapter.detail.PokemonTypeAdapter
 import com.example.pokemonapp.base.BaseFragment
@@ -62,6 +63,7 @@ class PokemonDetailFragment : BaseFragment() {
         binding.rvType.adapter = typeAdapter
 
         typeAdapter.onItemClicked = {
+            findNavController().navigate(R.id.action_pokemonDetailFragment_to_typeListFragment)
         }
 
         abilitiesAdapter = AbilitiesAdapter()

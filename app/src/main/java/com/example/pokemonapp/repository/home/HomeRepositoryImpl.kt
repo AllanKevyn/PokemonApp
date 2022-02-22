@@ -1,6 +1,7 @@
-package com.example.pokemonapp.repository
+package com.example.pokemonapp.repository.home
 
-import com.example.pokemonapp.endpoints.HomeApi
+import com.example.pokemonapp.endpoints.home.HomeApi
+import com.example.pokemonapp.repository.home.HomeRepository
 import com.example.pokemonapp.responses.Pokemon
 import com.example.pokemonapp.responses.PokemonList
 import com.example.pokemonapp.responses.ability.PokemonAbility
