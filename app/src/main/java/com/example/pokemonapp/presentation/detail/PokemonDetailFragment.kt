@@ -15,6 +15,7 @@ import com.example.pokemonapp.databinding.FragmentPokemonDetailBinding
 import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment
 import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment.Companion.ABILITY_DETAIL
 import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment.Companion.POKE_NAME
+import com.example.pokemonapp.presentation.typelist.TypeListFragment
 import com.example.pokemonapp.responses.PokemonListEntry
 import com.example.pokemonapp.responses.ability.PokemonAbility
 import com.squareup.picasso.Picasso
@@ -63,7 +64,10 @@ class PokemonDetailFragment : BaseFragment() {
         binding.rvType.adapter = typeAdapter
 
         typeAdapter.onItemClicked = {
-            findNavController().navigate(R.id.action_pokemonDetailFragment_to_typeListFragment)
+            val bundle = Bundle().apply {
+                putSerializable(TypeListFragment.TYPE, it)
+            }
+            findNavController().navigate(R.id.action_pokemonDetailFragment_to_typeListFragment, bundle)
         }
 
         abilitiesAdapter = AbilitiesAdapter()

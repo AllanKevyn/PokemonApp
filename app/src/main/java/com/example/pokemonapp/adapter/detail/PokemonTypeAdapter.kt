@@ -13,7 +13,7 @@ import com.example.pokemonapp.util.PokemonType
 class PokemonTypeAdapter : RecyclerView.Adapter<PokemonTypeAdapter.Holder>() {
 
     private var typeItems: List<Type> = ArrayList()
-    lateinit var onItemClicked: () -> Unit
+    lateinit var onItemClicked: (Type) -> Unit
     lateinit var context: Context
 
     @SuppressLint("NotifyDataSetChanged")
@@ -40,7 +40,7 @@ class PokemonTypeAdapter : RecyclerView.Adapter<PokemonTypeAdapter.Holder>() {
 
     class Holder(
         private val binding: ItemDetailBinding,
-        private val onItemClicked: () -> Unit,
+        private val onItemClicked: (Type) -> Unit,
         private val context: Context
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -58,7 +58,7 @@ class PokemonTypeAdapter : RecyclerView.Adapter<PokemonTypeAdapter.Holder>() {
             )
 
             binding.root.setOnClickListener {
-                onItemClicked.invoke()
+                onItemClicked.invoke(content)
             }
         }
     }
