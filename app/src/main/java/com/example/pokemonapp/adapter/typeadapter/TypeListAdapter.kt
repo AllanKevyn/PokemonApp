@@ -5,15 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokemonapp.databinding.ItemHomeBinding
+import com.example.pokemonapp.responses.typelist.NewTypesList
 import com.example.pokemonapp.responses.typelist.Pokemon
+import com.squareup.picasso.Picasso
 
 class TypeListAdapter : RecyclerView.Adapter<TypeListAdapter.Holder>() {
 
-    private var pokemonItems: List<Pokemon> = ArrayList()
+    private var pokemonItems: List<NewTypesList> = ArrayList()
     lateinit var onItemClicked: () -> Unit
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateItemsHome(pokemonList: List<Pokemon>) {
+    fun updateItemsHome(pokemonList: List<NewTypesList>) {
         pokemonItems = pokemonList
         notifyDataSetChanged()
     }
@@ -39,13 +41,13 @@ class TypeListAdapter : RecyclerView.Adapter<TypeListAdapter.Holder>() {
         private val onItemClicked: () -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        lateinit var content: Pokemon
+        lateinit var content: NewTypesList
 
-        fun bind(content: Pokemon) {
+        fun bind(content: NewTypesList) {
             this.content = content
 
-
-            binding.pkmName.text = content.pokemon.name
+            Picasso.get().load(content.imageUrl).into(binding.pkmImage)
+            binding.pkmName.text = content.pokemon
             binding.root.setOnClickListener {
                 onItemClicked.invoke()
             }

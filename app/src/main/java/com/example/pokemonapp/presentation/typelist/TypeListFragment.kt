@@ -1,29 +1,19 @@
 package com.example.pokemonapp.presentation.typelist
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.ui.text.toUpperCase
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.pokemonapp.R
-import com.example.pokemonapp.adapter.home.PokemonAdapter
 import com.example.pokemonapp.adapter.typeadapter.TypeListAdapter
 import com.example.pokemonapp.base.BaseFragment
-import com.example.pokemonapp.base.BaseViewModel
 import com.example.pokemonapp.base.States
-import com.example.pokemonapp.databinding.FragmentPokemonDetailBinding
 import com.example.pokemonapp.databinding.FragmentTypeListBinding
-import com.example.pokemonapp.presentation.detail.PokemonDetailFragment
-import com.example.pokemonapp.presentation.detail.PokemonDetailFragment.Companion.DETAIL
-import com.example.pokemonapp.presentation.detail.PokemonDetailViewModel
-import com.example.pokemonapp.responses.PokemonListEntry
 import com.example.pokemonapp.responses.Type
-import com.example.pokemonapp.responses.typelist.Pokemon
+import com.example.pokemonapp.responses.typelist.NewTypesList
+import com.example.pokemonapp.responses.typelist.NewTypesPokemonX
 import com.example.pokemonapp.responses.typelist.TypeList
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,7 +40,7 @@ class TypeListFragment : BaseFragment() {
         return binding.root
     }
 
-    private fun setUp(){
+    private fun setUp() {
         pokeDetail = arguments?.getSerializable(TYPE) as Type
         viewModel.getPokemonList(pokeDetail.type.name)
         setUpObservers()
@@ -63,8 +53,20 @@ class TypeListFragment : BaseFragment() {
         ) { state ->
             when (state) {
                 is States.GetTypeListState.Success -> {
-                    typeListAdapter.updateItemsHome(state.typeList.pokemon)
-                    setUpTitle(state.typeList)
+                    val pokemonEntries = state.typeList.pokemon.mapIndexed { index, pokemonListResult ->
+                        val number = if (pokemonListResult.pokemon.url.endsWith("/")) {
+                            pokemonListResult.pokemon.url.dropLast(1)
+                                .takeLastWhile { it.isDigit() }
+                        } else {
+                            pokemonListResult.pokemon.url.takeLastWhile { it.isDigit() }
+                        }
+                        val url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png"
+
+                        NewTypesList(pokemonListResult.pokemon.name, pokemonListResult.slot, url)
+                    }
+                            typeListAdapter.updateItemsHome(pokemonEntries)
+                            setUpTitle(state.typeList)
+
                 }
                 is States.GetTypeListState.Failure -> {
                     Toast.makeText(
@@ -79,7 +81,9 @@ class TypeListFragment : BaseFragment() {
                 }
             }
         }
+
     }
+
 
     private fun setUpAdapters() {
         typeListAdapter = TypeListAdapter()
@@ -93,7 +97,7 @@ class TypeListFragment : BaseFragment() {
         }
     }
 
-    private fun setUpTitle(type: TypeList){
+    private fun setUpTitle(type: TypeList) {
         binding.typeTitle.text = concatenation(type.name, " TYPE").uppercase()
     }
 
@@ -103,7 +107,7 @@ class TypeListFragment : BaseFragment() {
         return builder.toString()
     }
 
-    companion object{
+    companion object {
         const val TYPE = "type"
     }
 
