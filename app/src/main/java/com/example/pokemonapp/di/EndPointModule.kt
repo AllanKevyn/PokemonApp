@@ -1,5 +1,6 @@
 package com.example.pokemonapp.di
 
+import com.example.pokemonapp.endpoints.detail.DetailEndPoint
 import com.example.pokemonapp.endpoints.home.HomeEndPoint
 import com.example.pokemonapp.endpoints.typelist.TypeListEndPoint
 import dagger.Module
@@ -17,6 +18,12 @@ class EndPointModule {
     @Provides
     fun provideHomeEndPoint(retrofit: Retrofit): HomeEndPoint {
         return retrofit.create(HomeEndPoint::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDetailEndPoint(retrofit: Retrofit): DetailEndPoint {
+        return retrofit.create(DetailEndPoint::class.java)
     }
 
     @Singleton

@@ -1,7 +1,10 @@
 package com.example.pokemonapp.di
 
+import com.example.pokemonapp.endpoints.detail.DetailApi
 import com.example.pokemonapp.endpoints.home.HomeApi
 import com.example.pokemonapp.endpoints.typelist.TypeListApi
+import com.example.pokemonapp.repository.detail.DetailRepository
+import com.example.pokemonapp.repository.detail.DetailRepositoryImpl
 import com.example.pokemonapp.repository.home.HomeRepository
 import com.example.pokemonapp.repository.home.HomeRepositoryImpl
 import com.example.pokemonapp.repository.typelist.TypeListRepository
@@ -20,6 +23,12 @@ class RepositoryModule {
     @Provides
     fun provideHomeRepository(homeApi: HomeApi): HomeRepository {
         return HomeRepositoryImpl(homeApi)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDetailRepository(detailApi: DetailApi): DetailRepository {
+        return DetailRepositoryImpl(detailApi)
     }
 
     @Singleton

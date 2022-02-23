@@ -16,7 +16,6 @@ import com.example.pokemonapp.base.BaseFragment
 import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentHomeBinding
 import com.example.pokemonapp.presentation.detail.PokemonDetailFragment
-import com.example.pokemonapp.responses.PokemonList
 import com.example.pokemonapp.responses.PokemonListEntry
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*

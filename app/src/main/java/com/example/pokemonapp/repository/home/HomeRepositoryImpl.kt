@@ -15,16 +15,4 @@ class HomeRepositoryImpl @Inject constructor(private val homeApi: HomeApi) : Hom
     override suspend fun getPokemonList(limit: Int, offset: Int): Flow<PokemonList> = flow {
         emit(homeApi.getPokemonList(limit, offset))
     }
-
-    override suspend fun getPokemonInf(pokeName: String): Flow<Pokemon> = flow {
-        emit(homeApi.getPokemonInf(pokeName))
-    }
-
-    override suspend fun getAbilityDetail(abilityId: Int): Flow<PokemonAbility> = flow {
-        emit(homeApi.getAbilityDetail(abilityId))
-    }
-
-    override suspend fun getEvolution(id: Int): Flow<Evolutions> = flow {
-        emit(homeApi.getEvolution(id))
-    }
 }
