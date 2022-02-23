@@ -31,7 +31,6 @@ class HomeFragment : BaseFragment() {
     private lateinit var pokemonAdapter: PokemonAdapter
     private lateinit var layoutManager: GridLayoutManager
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -93,6 +92,7 @@ class HomeFragment : BaseFragment() {
                     viewModel.page++
                     viewModel.setList(pokemonEntries)
                     pokemonAdapter.updateItemsHome(pokemonEntries)
+                    viewModel.isLoading.value = false
 
                 }
                 is States.GetPokemonListState.Failure -> {
@@ -102,6 +102,7 @@ class HomeFragment : BaseFragment() {
                         "Erro ao carregar lista de pokemons",
                         Toast.LENGTH_SHORT
                     ).show()
+                    viewModel.isLoading.value = false
                 }
                 is States.GetPokemonListState.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
@@ -135,7 +136,7 @@ class HomeFragment : BaseFragment() {
                 val totalItemCount = layoutManager.itemCount
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
-                if (!viewModel.isLastPage) {
+                if (!viewModel.isLastPage && !viewModel.isLoading.value!!) {
                     if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
                         && firstVisibleItemPosition >= 0
                         && totalItemCount >= viewModel.pageSize

@@ -30,8 +30,11 @@ class HomeViewModel @Inject constructor(
     var page = 0
     var pageSize = 20
     var isLastPage : Boolean = false
+    var isLoading = MutableLiveData<Boolean>().apply { value = false }
+
 
     fun getPokemonList() {
+        isLoading.value = true
         viewModelScope.launch { homeUseCase.getPokemonList(pageSize, page * pageSize)
             .flowOn(Dispatchers.Main)
             .onStart { _pokeListResult.value = States.GetPokemonListState.Loading }
