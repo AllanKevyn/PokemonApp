@@ -11,7 +11,6 @@ import com.squareup.picasso.Picasso
 class PokemonAdapter() : RecyclerView.Adapter<PokemonAdapter.Holder>() {
 
     private var pokemonItems: MutableList<PokemonListEntry> = ArrayList()
-    private var t: MutableList<PokemonListEntry> = ArrayList()
     lateinit var onItemClicked: (PokemonListEntry) -> Unit
 
     @SuppressLint("NotifyDataSetChanged")

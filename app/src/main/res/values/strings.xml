@@ -13,5 +13,6 @@
     <string name="sp_def">SpDEF:</string>
     <string name="scale">Scale from 0 a 160</string>
     <string name="abilities">Abilities</string>
+    <string name="evolutions">Evolutions</string>
 
 </resources>

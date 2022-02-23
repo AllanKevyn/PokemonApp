@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.pokemonapp.R
 import com.example.pokemonapp.adapter.detail.AbilitiesAdapter
+import com.example.pokemonapp.adapter.detail.EvolutionsAdapter
 import com.example.pokemonapp.adapter.detail.PokemonTypeAdapter
 import com.example.pokemonapp.base.BaseFragment
 import com.example.pokemonapp.base.States
@@ -31,6 +32,7 @@ class PokemonDetailFragment : BaseFragment() {
     private lateinit var pokeDetail: PokemonListEntry
     private lateinit var typeAdapter: PokemonTypeAdapter
     private lateinit var abilitiesAdapter: AbilitiesAdapter
+    private lateinit var evolutionsAdapter: EvolutionsAdapter
     private lateinit var pokeAbilityDetail: PokemonAbility
     private val bottomSheet = BottomSheetFragment()
 
@@ -47,7 +49,7 @@ class PokemonDetailFragment : BaseFragment() {
         pokeDetail = arguments?.getSerializable(DETAIL) as PokemonListEntry
         viewModel.getPokemonList(pokeDetail.pokemonName)
         viewModel.getAbilityDetail(66)
-        viewModel.getEvolution(1)
+        viewModel.getEvolution(pokeDetail.number)
         setUpClicks()
         setUpAdapters()
         setUpObservers()
@@ -84,6 +86,9 @@ class PokemonDetailFragment : BaseFragment() {
             bottomSheet.show(childFragmentManager, POKE_NAME)
 
         }
+
+        evolutionsAdapter = EvolutionsAdapter()
+        binding.rvPokemonEvolution.adapter = evolutionsAdapter
     }
 
     private fun concatenation(str1: String, str2: String): String {
@@ -119,7 +124,6 @@ class PokemonDetailFragment : BaseFragment() {
                 }
                 is States.GetPokemonDetailState.Failure -> {
                     binding.progressBar.visibility = View.GONE
-
                 }
                 is States.GetPokemonDetailState.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
@@ -152,6 +156,7 @@ class PokemonDetailFragment : BaseFragment() {
             when (state) {
                 is States.GetPokemonEvolutionState.Success -> {
                     binding.progressBar.visibility = View.GONE
+                    evolutionsAdapter.updateEvolutions(state.pokeEvolutions.chain.evolves_to)
 
                 }
                 is States.GetPokemonEvolutionState.Failure -> {
