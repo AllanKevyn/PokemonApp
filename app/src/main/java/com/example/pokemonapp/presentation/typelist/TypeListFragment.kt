@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokemonapp.adapter.typeadapter.TypeListAdapter
 import com.example.pokemonapp.base.BaseFragment
@@ -42,6 +43,7 @@ class TypeListFragment : BaseFragment() {
         viewModel.getPokemonList(pokeDetail.type.name)
         setUpObservers()
         setUpAdapters()
+        setUpClicks()
     }
 
     private fun setUpObservers() {
@@ -96,6 +98,12 @@ class TypeListFragment : BaseFragment() {
 
         typeListAdapter.onItemClicked = {
 
+        }
+    }
+
+    private fun setUpClicks(){
+        binding.back.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
