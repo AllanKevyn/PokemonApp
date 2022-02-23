@@ -16,6 +16,7 @@ import com.example.pokemonapp.base.BaseFragment
 import com.example.pokemonapp.base.States
 import com.example.pokemonapp.databinding.FragmentHomeBinding
 import com.example.pokemonapp.presentation.detail.PokemonDetailFragment
+import com.example.pokemonapp.responses.PokemonList
 import com.example.pokemonapp.responses.PokemonListEntry
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -48,8 +49,16 @@ class HomeFragment : BaseFragment() {
         setUpSearch()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(this::pokemonAdapter.isInitialized){
+            pokemonAdapter.clearList()
+        }
+    }
+
     private fun setUpAdapters() {
         pokemonAdapter = PokemonAdapter()
+
         layoutManager = GridLayoutManager(binding.rvPokemon.context, 2)
         binding.rvPokemon.adapter = pokemonAdapter
         binding.rvPokemon.layoutManager = layoutManager
@@ -81,7 +90,7 @@ class HomeFragment : BaseFragment() {
                             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${number}.png"
                         PokemonListEntry(pokemonListResult.name, url, number.toInt())
                     }
-
+                    viewModel.page++
                     viewModel.setList(pokemonEntries)
                     pokemonAdapter.updateItemsHome(pokemonEntries)
 
@@ -108,7 +117,7 @@ class HomeFragment : BaseFragment() {
 
             filterList?.let {
                 binding.tvNotFound.visibility = View.GONE
-                pokemonAdapter.updateItemsHome(it)
+                pokemonAdapter.updateItemsBySearch(it)
             }
 
             if (filterList?.size == 0) {
@@ -131,7 +140,6 @@ class HomeFragment : BaseFragment() {
                         && firstVisibleItemPosition >= 0
                         && totalItemCount >= viewModel.pageSize
                     ) {
-                        viewModel.page++
                         viewModel.getPokemonList()
                     }
                 }

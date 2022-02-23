@@ -28,11 +28,11 @@ class HomeViewModel @Inject constructor(
     var pokemonItems: LiveData<List<PokemonListEntry>> = _pokemonItems
 
     var page = 0
-    var pageSize = 30
+    var pageSize = 20
     var isLastPage : Boolean = false
 
     fun getPokemonList() {
-        viewModelScope.launch { homeUseCase.getPokemonList(pageSize, page )
+        viewModelScope.launch { homeUseCase.getPokemonList(pageSize, page * pageSize)
             .flowOn(Dispatchers.Main)
             .onStart { _pokeListResult.value = States.GetPokemonListState.Loading }
             .catch { _pokeListResult.value = States.GetPokemonListState.Failure(it.message.toString()) }

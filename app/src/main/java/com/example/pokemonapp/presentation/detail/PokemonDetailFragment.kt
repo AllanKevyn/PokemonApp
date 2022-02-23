@@ -152,7 +152,6 @@ class PokemonDetailFragment : BaseFragment() {
             when (state) {
                 is States.GetPokemonEvolutionState.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    //pokeAbilityDetail = state.pokeAbilityInf
 
                 }
                 is States.GetPokemonEvolutionState.Failure -> {

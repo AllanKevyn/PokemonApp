@@ -10,12 +10,18 @@ import com.squareup.picasso.Picasso
 
 class PokemonAdapter() : RecyclerView.Adapter<PokemonAdapter.Holder>() {
 
-    private var pokemonItems: List<PokemonListEntry> = ArrayList()
+    private var pokemonItems: MutableList<PokemonListEntry> = ArrayList()
+    private var t: MutableList<PokemonListEntry> = ArrayList()
     lateinit var onItemClicked: (PokemonListEntry) -> Unit
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateItemsHome(pokemonList: List<PokemonListEntry>) {
-        pokemonItems = pokemonList
+        pokemonItems.addAll(pokemonList)
+        notifyDataSetChanged()
+    }
+
+    fun updateItemsBySearch(pokemonList: List<PokemonListEntry>) {
+        pokemonItems = pokemonList.toMutableList()
         notifyDataSetChanged()
     }
 
@@ -33,6 +39,10 @@ class PokemonAdapter() : RecyclerView.Adapter<PokemonAdapter.Holder>() {
 
     override fun getItemCount(): Int {
         return pokemonItems.size
+    }
+
+    fun clearList() {
+        pokemonItems.clear()
     }
 
     class Holder(
