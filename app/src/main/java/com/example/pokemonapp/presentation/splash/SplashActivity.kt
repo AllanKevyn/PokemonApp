@@ -10,7 +10,7 @@ import com.example.pokemonapp.main.MainActivity
 
 class SplashActivity : AppCompatActivity() {
 
-    private val SPLASH: Long = 5000
+    private val SPLASH: Long = 4000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
