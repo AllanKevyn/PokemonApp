@@ -110,4 +110,7 @@ dependencies {
 
     // Jetpack Compose Integration
     implementation "androidx.navigation:navigation-compose:2.4.0-alpha10"
+
+    // Gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 }
