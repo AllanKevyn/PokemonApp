@@ -19,6 +19,7 @@ import com.example.pokemonapp.presentation.bottomsheet.BottomSheetFragment.Compa
 import com.example.pokemonapp.presentation.typelist.TypeListFragment
 import com.example.pokemonapp.responses.PokemonListEntry
 import com.example.pokemonapp.responses.ability.PokemonAbility
+import com.example.pokemonapp.util.ProgressBars
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -103,12 +104,12 @@ class PokemonDetailFragment : BaseFragment() {
         binding.name.text = pokeDetail.pokemonName
         binding.weight.text = concatenation(t.pokeInf.weight.toString(), " Kg")
         binding.height.text = concatenation(t.pokeInf.height.toString(), " m")
-        binding.hpNumber.text = t.pokeInf.stats[0].base_stat.toString()
-        binding.attackNumber.text = t.pokeInf.stats[1].base_stat.toString()
-        binding.defNumber.text = t.pokeInf.stats[2].base_stat.toString()
-        binding.spAtkNumber.text = t.pokeInf.stats[3].base_stat.toString()
-        binding.spDefNumber.text = t.pokeInf.stats[4].base_stat.toString()
-        binding.spdNumber.text = t.pokeInf.stats[5].base_stat.toString()
+        ProgressBars.setProgressBar(binding.HpProgress, "progress", 0, 0 + t.pokeInf.stats[0].base_stat)
+        ProgressBars.setProgressBar( binding.atkProgress, "progress", 0, 0 +  t.pokeInf.stats[1].base_stat)
+        ProgressBars.setProgressBar( binding.defProgress, "progress", 0, 0 +  t.pokeInf.stats[2].base_stat)
+        ProgressBars.setProgressBar( binding.spAtkProgress, "progress", 0, 0 +  t.pokeInf.stats[3].base_stat)
+        ProgressBars.setProgressBar( binding.spDefProgress, "progress", 0, 0 +  t.pokeInf.stats[4].base_stat)
+        ProgressBars.setProgressBar( binding.spdProgress, "progress", 0, 0 +  t.pokeInf.stats[5].base_stat)
     }
 
     private fun setUpObservers() {
